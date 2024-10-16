@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">InterfaceIfoodSimplesTLRF</string>
+    <string name="paraRetirar">PARA RETIRAR</string>
+    <string name="entregaGratis">ENTREGA GRÁTIS</string>
+</resources>
