@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.example.fragments.fragments.ChamadasFragment
 import com.example.fragments.fragments.ConversasFragment
 
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         btnMercado.setOnClickListener {
 
+            /* // Só precisa instanciar quando não usar o Fragment KTX
             val chamadasFragment = ChamadasFragment()
 
             // Arguments para passar dados para o Fragment
@@ -60,9 +63,21 @@ class MainActivity : AppCompatActivity() {
             )
             chamadasFragment.arguments = bundle
 
+            // Só usar quando não usar o Fragment KTX
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_conteudo, chamadasFragment)
                 .commit()
+             */
+
+            val bundle = bundleOf(
+                "categoria" to "Mercado",
+                "usuario" to "Thiago"
+            )
+
+            // Utilizando o Fragment KTX
+            supportFragmentManager.commit {
+                replace<ChamadasFragment>(R.id.fragment_conteudo,args = bundle)
+            }
         }
 
         // Remover um Fragment exemplo:
