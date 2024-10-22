@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.fragments.fragments.ChamadasFragment
@@ -12,7 +13,7 @@ import com.example.fragments.fragments.ConversasFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var btnConversas : Button
-    private lateinit var btnChamadas : Button
+    private lateinit var btnMercado : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnConversas = findViewById(R.id.btn_conversas)
-        btnChamadas = findViewById(R.id.btn_chamadas)
+        btnMercado = findViewById(R.id.btn_mercado)
 
         btnConversas.setOnClickListener {
             /* // Modo Comum
@@ -48,9 +49,19 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        btnChamadas.setOnClickListener {
+        btnMercado.setOnClickListener {
+
+            val chamadasFragment = ChamadasFragment()
+
+            // Arguments para passar dados para o Fragment
+            val bundle = bundleOf(
+                "categoria" to "Mercado",
+                "usuario" to "Thiago"
+            )
+            chamadasFragment.arguments = bundle
+
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_conteudo, ChamadasFragment())
+                .replace(R.id.fragment_conteudo, chamadasFragment)
                 .commit()
         }
 
