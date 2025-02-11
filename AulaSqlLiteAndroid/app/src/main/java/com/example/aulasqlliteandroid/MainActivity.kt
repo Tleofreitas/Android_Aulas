@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         with(binding){
             btnSalvar.setOnClickListener { salvar() }
             btnListar.setOnClickListener { listar() }
+            btnAtualizar.setOnClickListener { atualizar() }
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -35,6 +36,36 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    private fun salvar() {
+
+        val titulo = binding.editProduto.text.toString()
+        val sql = "INSERT INTO ${DatabaseHelper.TABELA_PRODUTOS} VALUES (null, '$titulo', 'Descrição do notebook Acer');"
+
+        try{
+            bancoDados.writableDatabase.execSQL( sql )
+            Log.i("info_db", "Sucesso ao Inserir")
+        }catch (e: Exception) {
+            Log.i("info_db", "Erro ao Inserir")
+        }
+    }
+
+    private fun atualizar() {
+
+        val titulo = binding.editProduto.text.toString()
+
+        // id de forma manual por enquanto
+        val sql = "UPDATE ${DatabaseHelper.TABELA_PRODUTOS} SET ${DatabaseHelper.TITULO} = '$titulo' " +
+                "WHERE ${DatabaseHelper.ID_PRODUTO} = 1;"
+
+        try{
+            bancoDados.writableDatabase.execSQL( sql )
+            Log.i("info_db", "Sucesso ao Atualizar")
+        }catch (e: Exception) {
+            Log.i("info_db", "Erro ao Atualizar")
+        }
+        
     }
 
     private fun listar() {
@@ -53,19 +84,6 @@ class MainActivity : AppCompatActivity() {
             val descricao = cursor.getString(indiceDescricao)
 
             Log.i("info_db", "id: $idProduto - $titulo")
-        }
-    }
-
-    private fun salvar() {
-
-        val titulo = binding.editProduto.text.toString()
-        val sql = "INSERT INTO ${DatabaseHelper.TABELA_PRODUTOS} VALUES (null, '$titulo', 'Descrição do notebook Acer');"
-
-        try{
-            bancoDados.writableDatabase.execSQL( sql )
-            Log.i("info_db", "Sucesso ao Inserir")
-        }catch (e: Exception) {
-            Log.i("info_db", "Erro ao Inserir")
         }
     }
 }
