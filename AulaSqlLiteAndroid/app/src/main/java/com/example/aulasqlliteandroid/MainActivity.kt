@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             btnSalvar.setOnClickListener { salvar() }
             btnListar.setOnClickListener { listar() }
             btnAtualizar.setOnClickListener { atualizar() }
+            btnRemover.setOnClickListener { remover() }
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -65,7 +66,17 @@ class MainActivity : AppCompatActivity() {
         }catch (e: Exception) {
             Log.i("info_db", "Erro ao Atualizar")
         }
-        
+    }
+
+    private fun remover() {
+        val sql = "DELETE FROM ${DatabaseHelper.TABELA_PRODUTOS} WHERE ${DatabaseHelper.ID_PRODUTO} = 1;"
+
+        try{
+            bancoDados.writableDatabase.execSQL( sql )
+            Log.i("info_db", "Sucesso ao Remover")
+        }catch (e: Exception) {
+            Log.i("info_db", "Erro ao Remover")
+        }
     }
 
     private fun listar() {
