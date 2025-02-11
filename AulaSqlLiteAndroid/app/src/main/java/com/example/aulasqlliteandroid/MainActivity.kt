@@ -41,12 +41,16 @@ class MainActivity : AppCompatActivity() {
         val sql = "SELECT * FROM ${DatabaseHelper.TABELA_PRODUTOS};"
         val cursor = bancoDados.readableDatabase.rawQuery(sql, null)
 
+        val indiceId = cursor.getColumnIndex("${DatabaseHelper.ID_PRODUTO}")
+        val indiceTitulo = cursor.getColumnIndex("${DatabaseHelper.TITULO}")
+        val indiceDescricao = cursor.getColumnIndex("${DatabaseHelper.DESCRICAO}")
+
         while (cursor.moveToNext()) {
             //Log.i("info_db", "posição: ${cursor.position}")
 
-            val idProduto = cursor.getInt(0)
-            val titulo = cursor.getString(1)
-            val descricao = cursor.getString(2)
+            val idProduto = cursor.getInt(indiceId)
+            val titulo = cursor.getString(indiceTitulo)
+            val descricao = cursor.getString(indiceDescricao)
 
             Log.i("info_db", "id: $idProduto - $titulo")
         }
