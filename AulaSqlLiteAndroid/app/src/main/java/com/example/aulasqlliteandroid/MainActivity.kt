@@ -38,13 +38,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listar() {
-        TODO("Not yet implemented")
+        val sql = "SELECT * FROM ${DatabaseHelper.TABELA_PRODUTOS};"
+        val cursor = bancoDados.readableDatabase.rawQuery(sql, null)
+
+        while (cursor.moveToNext()) {
+            //Log.i("info_db", "posição: ${cursor.position}")
+
+            val idProduto = cursor.getInt(0)
+            val titulo = cursor.getString(1)
+            val descricao = cursor.getString(2)
+
+            Log.i("info_db", "id: $idProduto - $titulo")
+        }
     }
 
     private fun salvar() {
 
         val titulo = binding.editProduto.text.toString()
-        val sql = "INSERT INTO produtos VALUES (null, '$titulo', 'Descrição do notebook Acer');"
+        val sql = "INSERT INTO ${DatabaseHelper.TABELA_PRODUTOS} VALUES (null, '$titulo', 'Descrição do notebook Acer');"
 
         try{
             bancoDados.writableDatabase.execSQL( sql )
