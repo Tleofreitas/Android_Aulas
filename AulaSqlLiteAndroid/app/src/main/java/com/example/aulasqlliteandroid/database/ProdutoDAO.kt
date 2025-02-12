@@ -41,7 +41,16 @@ class ProdutoDAO(context: Context): IProdutoDAO {
     }
 
     override fun remover(idProduto: Int): Boolean {
-        TODO("Not yet implemented")
+        val sql = "DELETE FROM ${DatabaseHelper.TABELA_PRODUTOS} WHERE ${DatabaseHelper.ID_PRODUTO} = $idProduto;"
+
+        try{
+            escrita.execSQL( sql )
+            Log.i("info_db", "Sucesso ao Remover")
+        }catch (e: Exception) {
+            Log.i("info_db", "Erro ao Remover")
+            return false
+        }
+        return true
     }
 
     override fun listar(): List<Produto> {

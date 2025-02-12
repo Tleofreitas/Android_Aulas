@@ -60,14 +60,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun remover() {
-        val sql = "DELETE FROM ${DatabaseHelper.TABELA_PRODUTOS} WHERE ${DatabaseHelper.ID_PRODUTO} = 1;"
+        val produtoDAO = ProdutoDAO(this)
+        produtoDAO.remover(3)
 
-        try{
-            bancoDados.writableDatabase.execSQL( sql )
-            Log.i("info_db", "Sucesso ao Remover")
-        }catch (e: Exception) {
-            Log.i("info_db", "Erro ao Remover")
-        }
     }
 
     private fun listar() {
