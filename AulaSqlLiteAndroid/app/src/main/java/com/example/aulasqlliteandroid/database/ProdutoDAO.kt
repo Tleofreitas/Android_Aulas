@@ -25,10 +25,11 @@ class ProdutoDAO(context: Context): IProdutoDAO {
 
     override fun atualizar(produto: Produto): Boolean {
         val titulo = produto.titulo
+        val idProduto = produto.idProduto
 
         // id de forma manual por enquanto
         val sql = "UPDATE ${DatabaseHelper.TABELA_PRODUTOS} SET ${DatabaseHelper.TITULO} = '$titulo' " +
-                "WHERE ${DatabaseHelper.ID_PRODUTO} = 1;"
+                "WHERE ${DatabaseHelper.ID_PRODUTO} =$idProduto;"
 
         try{
             escrita.execSQL( sql )
@@ -54,6 +55,28 @@ class ProdutoDAO(context: Context): IProdutoDAO {
     }
 
     override fun listar(): List<Produto> {
-        TODO("Not yet implemented")
+        val listaDeProdutos = mutableListOf<Produto>()
+
+        val sql = "SELECT * FROM ${DatabaseHelper.TABELA_PRODUTOS};"
+        val cursor = leitura.rawQuery(sql, null)
+
+        val indiceId = cursor.getColumnIndex("${DatabaseHelper.ID_PRODUTO}")
+        val indiceTitulo = cursor.getColumnIndex("${DatabaseHelper.TITULO}")
+        val indiceDescricao = cursor.getColumnIndex("${DatabaseHelper.DESCRICAO}")
+
+        while (cursor.moveToNext()) {
+            //Log.i("info_db", "posição: ${cursor.position}")
+
+            val idProduto = cursor.getInt(indiceId)
+            val titulo = cursor.getString(indiceTitulo)
+            val descricao = cursor.getString(indiceDescricao)
+
+            // Log.i("info_db", "id: $idProduto - $titulo")
+
+            listaDeProdutos.add(
+                Produto(idProduto, titulo, descricao)
+            )
+        }
+        return listaDeProdutos
     }
 }

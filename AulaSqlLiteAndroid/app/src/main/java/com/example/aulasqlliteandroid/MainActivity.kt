@@ -54,33 +54,25 @@ class MainActivity : AppCompatActivity() {
         val titulo = binding.editProduto.text.toString()
         val produtoDAO = ProdutoDAO(this)
         val produto = Produto(
-            -1, "$titulo", "descrição.."
+            7, "$titulo", "descrição.."
         )
         produtoDAO.atualizar(produto)
     }
 
     private fun remover() {
         val produtoDAO = ProdutoDAO(this)
-        produtoDAO.remover(3)
+        produtoDAO.remover(7)
 
     }
 
     private fun listar() {
-        val sql = "SELECT * FROM ${DatabaseHelper.TABELA_PRODUTOS};"
-        val cursor = bancoDados.readableDatabase.rawQuery(sql, null)
+        val produtoDAO = ProdutoDAO(this)
+        val listaProdutos = produtoDAO.listar()
 
-        val indiceId = cursor.getColumnIndex("${DatabaseHelper.ID_PRODUTO}")
-        val indiceTitulo = cursor.getColumnIndex("${DatabaseHelper.TITULO}")
-        val indiceDescricao = cursor.getColumnIndex("${DatabaseHelper.DESCRICAO}")
-
-        while (cursor.moveToNext()) {
-            //Log.i("info_db", "posição: ${cursor.position}")
-
-            val idProduto = cursor.getInt(indiceId)
-            val titulo = cursor.getString(indiceTitulo)
-            val descricao = cursor.getString(indiceDescricao)
-
-            Log.i("info_db", "id: $idProduto - $titulo")
+        if(listaProdutos.isNotEmpty()) {
+            listaProdutos.forEach{ produto ->
+                Log.i("info_db", "${produto.idProduto} - ${produto.titulo}")
+            }
         }
     }
 }
