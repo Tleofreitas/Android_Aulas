@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.aulasqlliteandroid.database.DatabaseHelper
+import com.example.aulasqlliteandroid.database.ProdutoDAO
 import com.example.aulasqlliteandroid.databinding.ActivityMainBinding
+import com.example.aulasqlliteandroid.model.Produto
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,16 +42,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun salvar() {
-
         val titulo = binding.editProduto.text.toString()
-        val sql = "INSERT INTO ${DatabaseHelper.TABELA_PRODUTOS} VALUES (null, '$titulo', 'Descrição do notebook Acer');"
-
-        try{
-            bancoDados.writableDatabase.execSQL( sql )
-            Log.i("info_db", "Sucesso ao Inserir")
-        }catch (e: Exception) {
-            Log.i("info_db", "Erro ao Inserir")
-        }
+        val produtoDAO = ProdutoDAO(this)
+        val produto = Produto(
+            -1, "$titulo", "descrição.."
+        )
     }
 
     private fun atualizar() {
