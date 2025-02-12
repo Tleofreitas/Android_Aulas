@@ -47,22 +47,16 @@ class MainActivity : AppCompatActivity() {
         val produto = Produto(
             -1, "$titulo", "descrição.."
         )
+        produtoDAO.salvar(produto)
     }
 
     private fun atualizar() {
-
         val titulo = binding.editProduto.text.toString()
-
-        // id de forma manual por enquanto
-        val sql = "UPDATE ${DatabaseHelper.TABELA_PRODUTOS} SET ${DatabaseHelper.TITULO} = '$titulo' " +
-                "WHERE ${DatabaseHelper.ID_PRODUTO} = 1;"
-
-        try{
-            bancoDados.writableDatabase.execSQL( sql )
-            Log.i("info_db", "Sucesso ao Atualizar")
-        }catch (e: Exception) {
-            Log.i("info_db", "Erro ao Atualizar")
-        }
+        val produtoDAO = ProdutoDAO(this)
+        val produto = Produto(
+            -1, "$titulo", "descrição.."
+        )
+        produtoDAO.atualizar(produto)
     }
 
     private fun remover() {
